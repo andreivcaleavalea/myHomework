@@ -2,17 +2,44 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Unity.Notifications.Android;
 public class TestingScript : MonoBehaviour
 {
+    #region Declarations
     public Text text;
     public Button button;
+    #endregion
     private void Start()
     {
         button.onClick.AddListener(delegate { ShowToast("hei", 1); });
         text.color = new Vector4(255, 0, 0);
+        CreateChannel();
+        SendNotification();
     }
-
+    private void CreateChannel()
+    {
+        var not = new AndroidNotificationChannel()
+        {
+            Id = "notification",
+            Name = "First",
+            Importance = Importance.High,
+            Description = "bla bla bla",
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(not);
+    }
+    private void SendNotification()
+    {
+        var notification = new AndroidNotification();
+        notification.Title = "Test";
+        notification.Text = "Helloo man";
+        notification.FireTime = System.DateTime.Now.AddSeconds(5);
+        notification.SmallIcon = "icon_0";
+        notification.LargeIcon = "icon_1";
+        Color color = new Color(255, 0, 0);
+        notification.Color = color;
+        AndroidNotificationCenter.SendNotification(notification, "notification");
+        Debug.Log("Notification sent..");
+    }
     private void ShowToast(string text, int duration)
     {
         StartCoroutine(showToastCOR(text, duration));

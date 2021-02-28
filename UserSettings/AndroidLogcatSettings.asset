@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "R58MA61JNQE",
         "name": "com.AndreiCaleavalea.MyHomework",
-        "processId": 7574,
+        "processId": 17222,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,12 +12,66 @@
             "deviceId": "R58MA61JNQE",
             "name": "com.sec.android.app.myfiles",
             "processId": 28880,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "R58MA61JNQE",
             "name": "com.AndreiCaleavalea.MyHomework",
             "processId": 7574,
+            "exited": true
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 11526,
+            "exited": true
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 18295,
+            "exited": true
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 22272,
+            "exited": true
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.sec.android.app.myfiles",
+            "processId": 29465,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 4718,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 7167,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 7734,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 8076,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 17222,
             "exited": false
         }
     ],

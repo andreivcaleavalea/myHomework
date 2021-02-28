@@ -10,6 +10,6 @@ public class ShowPannelScript : MonoBehaviour
     {
         nameText.text = name;
         subjectText.text = subject;
-        descriptionText.text = "      " + description;
+        descriptionText.text = description;
     }
 }

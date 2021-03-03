@@ -16,7 +16,6 @@ public class Homework : MonoBehaviour
         homeworkModel.homeworkName = name;
         homeworkModel.homeworkSubject = subject;
         homeworkModel.homeworkDescription = description;
-        ///homeworkModel.homeworkDeadline = deadline;
         homeworkModel.homeworkIndex = index;
     }
 }

@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 90e77b3f9089cb747a93e3d09ef0ece8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ToastPrefab: {fileID: 6576785288034980712, guid: 8aafee24b3860a640bc56d65b6167401, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,17 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static FilesManager;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System;
 using Unity.Notifications.Android;
 public class GameManager : MonoBehaviour
 {
     private List<HomeworkModel> homeworksList;
     [SerializeField]private GameObject homeworkPrefab;
-
-#region UI Elements
+    #region UI Elements
     [Header("UI Elements")]
     [SerializeField] private InputField[] inputFields;
     [SerializeField] private Transform content;
@@ -19,6 +16,7 @@ public class GameManager : MonoBehaviour
     private GameObject
         titleObject,///normal
         addButton,//normal
+        addPannel,
         addPannelFull,//normal
         nameInputHead,//light
         nameInputBody,//dark
@@ -40,8 +38,14 @@ public class GameManager : MonoBehaviour
         descriptionFull,
         descriptionToShowTitle,//light
         descriptionToShowContainer,//dark
+        settingsPannel,
+        toastMessage,
+        addPannelText,
+        settingsName,
+        settingsBackButton,
+        removeButton,
+        indexText,
         backButton;//light
-    [SerializeField] private Text errorText;
 #endregion
 
     private void Start()
@@ -67,6 +71,10 @@ public class GameManager : MonoBehaviour
     }
     private void PopulateInScene()
     {
+        if (PlayerPrefs.GetString("theme") == "purple")
+            ThemePurpleActivated();
+        else
+            ThemeGreyActivated();
         if (homeworksList != null)
         {
             for(int i = 0; i < homeworksList.Count; i++)
@@ -77,28 +85,33 @@ public class GameManager : MonoBehaviour
                     homeworksList[i].homeworkName,
                     homeworksList[i].homeworkSubject,
                     homeworksList[i].homeworkDescription,
-                    homeworksList[i].homeworkIndex
+                    homeworksList[i].homeworkIndex,
+                    homeworksList[i].doneHomework
                     );
                 HomeworkModel homeworkModel = homeworkScript.homeworkModel;
                 Button[] buttons = homeworkObject.GetComponentsInChildren<Button>();
-                buttons[0].onClick.AddListener(delegate { DestroyHomework(homeworkObject, homeworkModel); });
-                buttons[1].onClick.AddListener(delegate { ShowHomework(homeworkModel.homeworkName, homeworkModel.homeworkSubject, homeworkModel.homeworkDescription); });
+                buttons[0].onClick.AddListener(delegate { DoneHomework(homeworkObject, homeworkModel); });
+                buttons[1].onClick.AddListener(delegate { ShowHomework(homeworkModel.homeworkName, homeworkModel.homeworkSubject, homeworkModel.homeworkDescription,homeworkModel.homeworkIndex); });
+                if (homeworksList[i].doneHomework)
+                    homeworkScript.DoneHomework(true);
+                else
+                    homeworkScript.DoneHomework(false);
             }
         }
     }
-    private void DestroyHomework(GameObject homeworkObject, HomeworkModel homeworkModel)
+    private void DoneHomework(GameObject homeworkObject, HomeworkModel homeworkModel)
     {
-        homeworksList.Remove(homeworkModel);
-        //homeworksList.RemoveAt(homeworkModel.homeworkIndex);
+        homeworkObject.GetComponent<Homework>().doneLayout.SetActive(true);
+        if (!homeworkModel.doneHomework)
+            homeworkObject.GetComponent<Homework>().DoneHomework(true);
+        homeworkModel.doneHomework = true;
+        homeworksList[homeworkModel.homeworkIndex].doneHomework = true;
         RefreshHomeworksList(homeworksList);
-        Destroy(homeworkObject);
-        for (int i = 0; i < homeworksList.Count; i++)
-            homeworksList[i].homeworkIndex = i;
     }
-    private void ShowHomework(string name,string subject, string description)
+    private void ShowHomework(string name,string subject, string description, int index)
     {
         showPannelFull.SetActive(true);
-        showPannel.GetComponent<ShowPannelScript>().SetInfo(name, subject, description);
+        showPannel.GetComponent<ShowPannelScript>().SetInfo(name, subject, description, index);
     }
     private void CreateChannel()
     {
@@ -123,18 +136,17 @@ public class GameManager : MonoBehaviour
     }
     public void CreateHomework()
     {
-        Debug.Log("Start create homework function with: ");
-        for (int i = 0; i < homeworksList.Count; i++)
-            Debug.Log(homeworksList[i].homeworkName);
         for(int i = 0; i <= 1; i++)
         {
             if (inputFields[i].text == "")
             {
-                ShowToast("Please complete the name and the subject", 2);
+                GameObject gameObject = Instantiate(toastMessage, addPannel.transform);
+                gameObject.transform.SetAsFirstSibling();
+                addPannelText.transform.SetAsFirstSibling();
+                toastMessage.GetComponent<ToastMessage>().SetText("Please complete the title and the subject");
                 return;
             }
         }
-        Debug.Log("Try to enter addHomework");
         AddHomework(inputFields[0].text, inputFields[1].text, inputFields[2].text);
         addPannelFull.SetActive(false);
         for(int i = 0; i < inputFields.Length; i++)
@@ -142,75 +154,108 @@ public class GameManager : MonoBehaviour
             inputFields[i].text = "";
         }
     }
-    private void ShowToast(string text, int duration)
-    {
-        StartCoroutine(showToastCOR(text, duration));
-    }
-    private IEnumerator showToastCOR(string text, int duration)
-    {
-        Color originalColor = new Vector4(255, 0, 0);
-        errorText.text = text;
-        errorText.enabled = true;
-        errorText.gameObject.SetActive(true);
-        yield return FadeInAndOut(errorText, true, 0.5f);
-
-        float counter = 0;
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-            yield return null;
-        }
-
-        yield return FadeInAndOut(errorText, false, 0.5f);
-        errorText.enabled = false;
-        errorText.gameObject.SetActive(false);
-        errorText.color = originalColor;
-
-    }
-    IEnumerator FadeInAndOut(Text targetText, bool fadeIn, float duration)
-    {
-        //Set Values depending on if fadeIn or fadeOut
-        float a, b;
-        if (fadeIn)
-        {
-            a = 0f;
-            b = 1f;
-        }
-        else
-        {
-            a = 1f;
-            b = 0f;
-        }
-
-        Color currentColor = Color.clear;
-        float counter = 0f;
-
-        while (counter < duration)
-        {
-            counter += Time.deltaTime;
-            float alpha = Mathf.Lerp(a, b, counter / duration);
-            targetText.color = new Color(255, 0, 0, alpha);
-            yield return null;
-        }
-    }
     private void AddHomework(string name,string subject,string description)
     {
-        Debug.Log("Start add homework");
         GameObject homeworkObject = Instantiate(homeworkPrefab, content);
         //homeworkObject.GetComponent<RectTransform>().SetAsLastSibling();
         int index = homeworksList.Count;
 
         Homework homeworkScript = homeworkObject.GetComponent<Homework>();
-        homeworkScript.SetInfo(name, subject, description, index);
+        homeworkScript.SetInfo(name, subject, description, index, false);
+        homeworkScript.doneLayout.SetActive(false);
         homeworksList.Add(homeworkScript.homeworkModel);
-        Debug.Log("a add the homework so now we have: ");
-        for (int i = 0; i < homeworksList.Count; i++)
-            Debug.Log(homeworksList[i].homeworkName);
         RefreshHomeworksList(homeworksList);
         Button[] buttons = homeworkObject.GetComponentsInChildren<Button>();
         HomeworkModel homeworkModel = homeworkScript.homeworkModel;
-        buttons[0].onClick.AddListener(delegate { DestroyHomework(homeworkObject, homeworkModel); });
-        buttons[1].onClick.AddListener(delegate { ShowHomework(homeworkModel.homeworkName, homeworkModel.homeworkSubject, homeworkModel.homeworkDescription); });
-        Debug.Log("add homework ends");
+        homeworkScript.DoneHomework(false);
+        buttons[0].onClick.AddListener(delegate { DoneHomework(homeworkObject, homeworkModel); });
+        buttons[1].onClick.AddListener(delegate { ShowHomework(homeworkModel.homeworkName, homeworkModel.homeworkSubject, homeworkModel.homeworkDescription,homeworkModel.homeworkIndex); });
+    }
+    public void DestroyHomework()
+    {
+        int index = int.Parse(indexText.GetComponent<Text>().text);
+        homeworksList.RemoveAt(index);
+        RefreshHomeworksList(homeworksList);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    private void ThemePurpleActivated()
+    {
+        Color normalColor;
+        Color whiteAccentColor;
+        Color darkAccentColor;
+        ColorUtility.TryParseHtmlString("#8F00FF", out normalColor);
+        ColorUtility.TryParseHtmlString("#DB76FF", out whiteAccentColor);
+        ColorUtility.TryParseHtmlString("#7100A7", out darkAccentColor);
+        titleObject.GetComponent<Image>().color = normalColor;
+        addButton.GetComponent<Image>().color = normalColor;
+        addPannelFull.GetComponent<Image>().color = normalColor;
+        showPannel.GetComponent<Image>().color = normalColor;
+        nameInputHead.GetComponent<Image>().color = whiteAccentColor;
+        subjectInputHead.GetComponent<Image>().color = whiteAccentColor;
+        descriptionInputHead.GetComponent<Image>().color = whiteAccentColor;
+        backCreateButton.GetComponent<Image>().color = whiteAccentColor;
+        nameToShow.GetComponent<Image>().color = whiteAccentColor;
+        descriptionToShowTitle.GetComponent<Image>().color = whiteAccentColor;
+        homeworkPrefab.GetComponent<Image>().color = normalColor;
+        subjectToShow.GetComponent<Image>().color = darkAccentColor;
+        descriptionToShowContainer.GetComponent<Image>().color = darkAccentColor;
+        backButton.GetComponent<Image>().color = whiteAccentColor;
+        nameInputBody.GetComponent<Image>().color = darkAccentColor;
+        subjectInputBody.GetComponent<Image>().color = darkAccentColor;
+        descriptionInputBody.GetComponent<Image>().color = darkAccentColor;
+        settingsPannel.GetComponent<Image>().color = normalColor;
+        Text[] texts = homeworkPrefab.GetComponentsInChildren<Text>();
+        foreach(Text text in texts)
+        {
+            text.color = new Color(256, 256, 256);
+        }
+        descriptionToShowContainer.GetComponentInChildren<Text>().color = new Color(256, 256, 256);
+        settingsName.GetComponent<Image>().color = whiteAccentColor;
+        settingsBackButton.GetComponent<Image>().color = whiteAccentColor;
+        toastMessage.GetComponent<Image>().color = whiteAccentColor;
+        removeButton.GetComponent<Image>().color = whiteAccentColor;
+    }
+    private void ThemeGreyActivated()
+    {
+        Color normalColor;
+        Color whiteAccentColor;
+        Color darkAccentColor;
+        Color mediumGrey;
+        ColorUtility.TryParseHtmlString("#c4c4c4", out normalColor);
+        ColorUtility.TryParseHtmlString("#a5a5a5", out whiteAccentColor);
+        ColorUtility.TryParseHtmlString("#686868", out darkAccentColor);
+        ColorUtility.TryParseHtmlString("#999999", out mediumGrey);
+
+        titleObject.GetComponent<Image>().color = darkAccentColor;
+        addButton.GetComponent<Image>().color = darkAccentColor;
+        addPannelFull.GetComponent<Image>().color = darkAccentColor;
+        nameInputHead.GetComponent<Image>().color = normalColor;
+        nameInputBody.GetComponent<Image>().color = whiteAccentColor;
+        subjectInputHead.GetComponent<Image>().color = normalColor;
+        subjectInputBody.GetComponent<Image>().color = whiteAccentColor;
+        descriptionInputHead.GetComponent<Image>().color = normalColor;
+        descriptionInputBody.GetComponent<Image>().color = whiteAccentColor;
+        backCreateButton.GetComponent<Image>().color = normalColor;
+        showPannel.GetComponent<Image>().color = darkAccentColor;
+        nameToShow.GetComponent<Image>().color = normalColor;
+        subjectToShow.GetComponent<Image>().color = mediumGrey;
+        descriptionToShowTitle.GetComponent<Image>().color = mediumGrey;
+        descriptionToShowContainer.GetComponent<Image>().color = normalColor;
+        homeworkPrefab.GetComponent<Image>().color = whiteAccentColor;
+        settingsPannel.GetComponent<Image>().color = normalColor;
+        settingsName.GetComponent<Image>().color = mediumGrey;
+        settingsBackButton.GetComponent<Image>().color = mediumGrey;
+        toastMessage.GetComponent<Image>().color = whiteAccentColor;
+        removeButton.GetComponent<Image>().color = whiteAccentColor;
+    }
+    public void ThemePurple()
+    {
+        PlayerPrefs.SetString("theme", "purple");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void ThemeGrey()
+    {
+        PlayerPrefs.SetString("theme", "grey");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

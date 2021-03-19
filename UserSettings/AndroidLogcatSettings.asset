@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "R58MA61JNQE",
         "name": "com.AndreiCaleavalea.MyHomework",
-        "processId": 17222,
+        "processId": 25873,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -73,6 +73,12 @@
             "name": "com.AndreiCaleavalea.MyHomework",
             "processId": 17222,
             "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 25873,
+            "exited": false
         }
     ],
     "m_Tags": {
@@ -123,7 +129,7 @@
             true
         ],
         "MemoryGroup": 2,
-        "Behavior": 0
+        "Behavior": 1
     },
     "m_Filter": "",
     "m_FilterIsRegularExpression": false,

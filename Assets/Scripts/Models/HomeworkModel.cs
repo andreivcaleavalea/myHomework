@@ -7,4 +7,5 @@ public class HomeworkModel
     public string homeworkSubject;
     public string homeworkDescription;
     public int homeworkIndex;
+    public bool doneHomework;
 }

@@ -4,6 +4,7 @@ using static FilesManager;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Notifications.Android;
+using static AdsManager;
 public class GameManager : MonoBehaviour
 {
     private List<HomeworkModel> homeworksList;
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
     }
     private void InitializeElements()
     {
+        InitializeAds();
         //control elememts size
         int screenWidth = (int)titleObject.GetComponent<RectTransform>().rect.width;
         backButtonHS.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, screenWidth / 2 - 2);

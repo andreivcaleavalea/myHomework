@@ -21,8 +21,7 @@ public static class AdsManager
 #endif
 
         // Create a 320x50 banner at the top of the screen.
-        bannerView = new BannerView(adUnitId, AdSize.Banner, 0, 0);
-
+        bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
         // Called when an ad request has successfully loaded.
         bannerView.OnAdLoaded += HandleOnAdLoaded;
         // Called when an ad request failed to load.

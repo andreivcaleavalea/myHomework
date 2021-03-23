@@ -3,8 +3,8 @@
     "m_SelectedPackage": {
         "deviceId": "R58MA61JNQE",
         "name": "com.AndreiCaleavalea.MyHomework",
-        "processId": 25873,
-        "exited": false
+        "processId": 23900,
+        "exited": true
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
@@ -79,6 +79,42 @@
             "name": "com.AndreiCaleavalea.MyHomework",
             "processId": 25873,
             "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 13379,
+            "exited": true
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 16485,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 17765,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 19858,
+            "exited": true
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 22329,
+            "exited": false
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomework",
+            "processId": 23900,
+            "exited": true
         }
     ],
     "m_Tags": {
@@ -114,7 +150,7 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 300.0,
+        "MemoryWindowHeight": 255.0,
         "MemoryWindowWidth": 170.0,
         "MemoryTypeEnabled": [
             true,

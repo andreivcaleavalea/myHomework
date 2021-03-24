@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 {
     private List<HomeworkModel> homeworksList;
     [SerializeField]private GameObject homeworkPrefab;
+
+    private bool wichList = true;
+    public List<GameObject> homeworks = new List<GameObject>();
     #region UI Elements
     [Header("UI Elements")]
     [SerializeField] private InputField[] inputFields;
@@ -82,6 +85,7 @@ public class GameManager : MonoBehaviour
             for(int i = 0; i < homeworksList.Count; i++)
             {
                 GameObject homeworkObject = Instantiate(homeworkPrefab, content);
+                homeworks.Add(homeworkObject);
                 Homework homeworkScript = homeworkObject.GetComponent<Homework>();
                 homeworkScript.SetInfo(
                     homeworksList[i].homeworkName,
@@ -159,6 +163,7 @@ public class GameManager : MonoBehaviour
     private void AddHomework(string name,string subject,string description)
     {
         GameObject homeworkObject = Instantiate(homeworkPrefab, content);
+        homeworks.Add(homeworkObject);
         //homeworkObject.GetComponent<RectTransform>().SetAsLastSibling();
         int index = homeworksList.Count;
 
@@ -259,5 +264,16 @@ public class GameManager : MonoBehaviour
     {
         PlayerPrefs.SetString("theme", "grey");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void SwitchList()
+    {
+        wichList = !wichList;
+        foreach(GameObject homework in homeworks)
+        {
+            if (homework.GetComponent<Homework>().homeworkModel.doneHomework)
+                homework.SetActive(wichList);
+            else
+                homework.SetActive(!wichList);
+        }
     }
 }

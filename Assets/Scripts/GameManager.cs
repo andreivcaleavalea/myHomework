@@ -104,6 +104,8 @@ public class GameManager : MonoBehaviour
                     homeworkScript.DoneHomework(false);
             }
         }
+        wichList = true;
+        SwitchList();
     }
     private void DoneHomework(GameObject homeworkObject, HomeworkModel homeworkModel)
     {
@@ -203,7 +205,7 @@ public class GameManager : MonoBehaviour
         backCreateButton.GetComponent<Image>().color = whiteAccentColor;
         nameToShow.GetComponent<Image>().color = whiteAccentColor;
         descriptionToShowTitle.GetComponent<Image>().color = whiteAccentColor;
-        homeworkPrefab.GetComponent<Image>().color = normalColor;
+        homeworkPrefab.GetComponent<Image>().color = whiteAccentColor;
         subjectToShow.GetComponent<Image>().color = darkAccentColor;
         descriptionToShowContainer.GetComponent<Image>().color = darkAccentColor;
         backButton.GetComponent<Image>().color = whiteAccentColor;
@@ -249,9 +251,9 @@ public class GameManager : MonoBehaviour
         descriptionToShowTitle.GetComponent<Image>().color = mediumGrey;
         descriptionToShowContainer.GetComponent<Image>().color = normalColor;
         homeworkPrefab.GetComponent<Image>().color = whiteAccentColor;
-        settingsPannel.GetComponent<Image>().color = normalColor;
+        settingsPannel.GetComponent<Image>().color = darkAccentColor;
         settingsName.GetComponent<Image>().color = mediumGrey;
-        settingsBackButton.GetComponent<Image>().color = mediumGrey;
+        settingsBackButton.GetComponent<Image>().color = normalColor;
         toastMessage.GetComponent<Image>().color = whiteAccentColor;
         removeButton.GetComponent<Image>().color = whiteAccentColor;
     }

@@ -2,8 +2,8 @@
     "m_SelectedDeviceId": "R58MA61JNQE",
     "m_SelectedPackage": {
         "deviceId": "R58MA61JNQE",
-        "name": "com.AndreiCaleavalea.MyHomework",
-        "processId": 23900,
+        "name": "com.AndreiCaleavalea.MyHomeworkTest",
+        "processId": 1333,
         "exited": true
     },
     "m_SelectedPriority": 0,
@@ -114,6 +114,12 @@
             "deviceId": "R58MA61JNQE",
             "name": "com.AndreiCaleavalea.MyHomework",
             "processId": 23900,
+            "exited": true
+        },
+        {
+            "deviceId": "R58MA61JNQE",
+            "name": "com.AndreiCaleavalea.MyHomeworkTest",
+            "processId": 1333,
             "exited": true
         }
     ],

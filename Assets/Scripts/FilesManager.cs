@@ -4,27 +4,27 @@ using System.IO;
 using Newtonsoft.Json;
 public static class FilesManager
 {
-    private static string homeworksPath = Application.persistentDataPath + "/homeworks.json";
+    private static readonly string HomeworksPath = Application.persistentDataPath + "/homeworks.json";
     public static List<HomeworkModel> GetHomeworksFromJson()
     {
-        if (File.Exists(homeworksPath))
+        if (File.Exists(HomeworksPath))
         {
-            var homeworks = File.ReadAllText(homeworksPath);
+            var homeworks = File.ReadAllText(HomeworksPath);
             var homeworksList = JsonConvert.DeserializeObject<List<HomeworkModel>>(homeworks);
-            for (int i = 0; i < homeworksList.Count; i++)
+            for (var i = 0; i < homeworksList.Count; i++)
             {
                 homeworksList[i].homeworkIndex = i;
             }
-            return (List<HomeworkModel>)homeworksList;
+            return homeworksList;
         }
 
-        List<HomeworkModel> lists = new List<HomeworkModel>();
+        var lists = new List<HomeworkModel>();
         return lists;
     }
     public static void RefreshHomeworksList(List<HomeworkModel> homeworksList)
     {
         var x = JsonConvert.SerializeObject(homeworksList);
-        File.Delete(homeworksPath);
-        File.WriteAllText(homeworksPath, x);
+        File.Delete(HomeworksPath);
+        File.WriteAllText(HomeworksPath, x);
     }
 }

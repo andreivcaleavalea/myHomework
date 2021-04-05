@@ -1,5 +1,9 @@
 using UnityEngine;
-public class Theme : MonoBehaviour
+
+namespace Utils
 {
+    public class Theme : MonoBehaviour
+    {
     
+    }
 }

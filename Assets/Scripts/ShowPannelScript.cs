@@ -7,11 +7,11 @@ public class ShowPannelScript : MonoBehaviour
     public Text subjectText;
     public Text descriptionText;
     public Text index;
-    public void SetInfo(string name, string subject, string description,int index)
+    public void SetInfo(string hName, string subject, string description,int hIndex)
     {
-        nameText.text = name;
+        nameText.text = hName;
         subjectText.text = subject;
         descriptionText.text = description;
-        this.index.text = index.ToString();
+        this.index.text = hIndex.ToString();
     }
 }

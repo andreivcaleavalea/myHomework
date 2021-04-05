@@ -8,7 +8,7 @@ public class Homework : MonoBehaviour
     public GameObject doneLayout;
     private void Start()
     {
-        Text[] texts = GetComponentsInChildren<Text>();
+        var texts = GetComponentsInChildren<Text>();
         texts[0].text = homeworkModel.homeworkName;
         texts[1].text = homeworkModel.homeworkSubject;
     }
@@ -24,9 +24,9 @@ public class Homework : MonoBehaviour
             transform.SetAsFirstSibling();
         }
     }
-    public void SetInfo(string name, string subject, string description, int index,bool doneHomework)
+    public void SetInfo(string hName, string subject, string description, int index,bool doneHomework)
     {
-        homeworkModel.homeworkName = name;
+        homeworkModel.homeworkName = hName;
         homeworkModel.homeworkSubject = subject;
         homeworkModel.homeworkDescription = description;
         homeworkModel.homeworkIndex = index;
